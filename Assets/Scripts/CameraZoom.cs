@@ -4,26 +4,51 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
+    private float zoomInFOV = 30f;
+    private float zoomOutFOV = 60f;
+    private float zoomDuration = 0.5f;
+
+    private Camera mainCamera;
+    private float originalFOV;
+
+    private void Start()
+    {
+        mainCamera = GetComponent<Camera>();
+        // Store the original field of view in variable.
+        originalFOV = mainCamera.fieldOfView;
+    }
 
     private void OnEnable()
     {
-        MoveBackFromPlayer();
-        Actions.changeColorEvent += MoveTowardsPlayer;
+        // Subscribe to the change color event.
+        Actions.changeColorEvent += TriggerZoom;
     }
 
     private void OnDisable()
     {
-        Actions.changeColorEvent -= MoveTowardsPlayer;
+        // Unsubscribe from the change color event.
+        Actions.changeColorEvent -= TriggerZoom;
     }
 
-    // Update is called once per frame
-    void MoveTowardsPlayer()
+    private void TriggerZoom()
     {
-        transform.position = Vector3.Lerp(transform.position, new Vector3(5f, 0, 0), Time.deltaTime);
+        // Starts the zoom coroutine.
+        StartCoroutine(Zoom());
     }
 
-    void MoveBackFromPlayer()
+    private IEnumerator Zoom()
     {
-        transform.position -= new Vector3(-5f, 0, 0);
+        float elapsedTime = 0f;
+        // Zoom in while the elapsed time is less than the zoom duration.
+        while (elapsedTime < zoomDuration)
+        {
+            // Smoothly zooms in and out.
+            mainCamera.fieldOfView = Mathf.Lerp(mainCamera.fieldOfView, zoomInFOV, elapsedTime / zoomDuration);
+            elapsedTime += Time.deltaTime;
+            // Wait for the next frame.
+            yield return null;
+        }
+        // Reset the field of view to original value.
+        mainCamera.fieldOfView = originalFOV;
     }
 }

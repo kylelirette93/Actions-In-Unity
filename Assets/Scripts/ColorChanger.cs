@@ -9,11 +9,13 @@ public class ColorChanger : MonoBehaviour
 
     void Start()
     {
+        // Add a listener to the button.
         changeColorButton.onClick.AddListener(ChangeColorEvent);
     }
 
     void ChangeColorEvent()
     {
+        // Invoke the change color event with a null check.
         Actions.changeColorEvent?.Invoke();
     }
 }

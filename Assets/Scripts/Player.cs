@@ -4,24 +4,27 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private Renderer renderer;
+    private Renderer _renderer;
 
     private void Start()
     {
-        renderer = GetComponent<Renderer>();
+        _renderer = GetComponent<Renderer>();
     }
     private void OnEnable()
     {
+        // Subscribes to the change color event.
         Actions.changeColorEvent += ChangeMaterialColor;
     }
 
     private void OnDisable()
     {
+        // Unsubscribes from the change color event.
         Actions.changeColorEvent -= ChangeMaterialColor;
     }
 
     void ChangeMaterialColor()
     {
-        renderer.material.color = Random.ColorHSV();
+        // Change the material color of the renderer to a random color.
+        _renderer.material.color = Random.ColorHSV();
     }
 }
