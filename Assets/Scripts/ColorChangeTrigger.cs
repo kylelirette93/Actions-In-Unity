@@ -5,10 +5,11 @@ using UnityEngine.UI;
 
 public class ColorChanger : MonoBehaviour
 {
-    public Button changeColorButton;
+    private Button changeColorButton;
 
     void Start()
     {
+        changeColorButton = GetComponent<Button>();
         // Add a listener to the button.
         changeColorButton.onClick.AddListener(ChangeColorEvent);
     }

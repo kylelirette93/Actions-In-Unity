@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class UIManager : MonoBehaviour
+public class TextChanger : MonoBehaviour
 {
-    public TextMeshProUGUI colorSelectedText;
-    public Player player;
+    private TextMeshProUGUI colorSelectedText;
 
+    private void Start()
+    {
+        colorSelectedText = GetComponent<TextMeshProUGUI>();
+    }
 
     private void OnEnable()
     {
@@ -25,6 +28,12 @@ public class UIManager : MonoBehaviour
     public void UpdateText()
     {
         // Update the text to display that the color has been changed.
-        colorSelectedText.text = $"Color has been changed!";
+        colorSelectedText.text = $"       Color selected!";
+        Invoke("ResetText", 0.5f);
+    }
+
+    void ResetText()
+    {
+        colorSelectedText.text = "Click button to change color";
     }
 }
